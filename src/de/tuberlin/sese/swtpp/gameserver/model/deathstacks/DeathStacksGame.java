@@ -1,5 +1,7 @@
 package de.tuberlin.sese.swtpp.gameserver.model.deathstacks;
 
+import java.util.ArrayList;
+
 import de.tuberlin.sese.swtpp.gameserver.model.Game;
 import de.tuberlin.sese.swtpp.gameserver.model.Player;
 // TODO: more imports allowed
@@ -29,6 +31,17 @@ public class DeathStacksGame extends Game {
 		super();
 		
 		// TODO: Initialization, if necessary
+		String [][] field = new String[6][6];
+		
+		for (int i=0; i<= field.length; i++) {
+			field[0][i] = "rr";
+			field[1][i] = ",";
+			field[2][i] = ",";
+			field[3][i] = ",";
+			field[4][i] = ",";
+			field[5][i] = "bb";
+		}
+		
 	}
 	
 	public String getType() {
@@ -195,6 +208,7 @@ public class DeathStacksGame extends Game {
 	@Override
 	public void setBoard(String state) {
 		// TODO: implement
+		
 	}
 	
 	@Override
@@ -203,9 +217,34 @@ public class DeathStacksGame extends Game {
 		return "rr,rr,rr,rr,rr,rr/,,,,,/,,,,,/,,,,,/,,,,,/bb,bb,bb,bb,bb,bb";
 	}
 	
+	
+	
 	@Override
 	public boolean tryMove(String moveString, Player player) {
 		// TODO: replace with implementation 
+		
+		//format validation:
+		String part1 = moveString.substring(0, 59);
+		String part2 = moveString.substring(60, 62);
+		String part3 = moveString.substring(63);
+		String pattern1 = "[r|b{1,6}?\\,]+";
+		String pattern2 = "\\-[1-6]{1}\\-";
+		
+		//this will save the result of all validations
+		ArrayList<Boolean> instantpot = new ArrayList<Boolean>();
+		instantpot.add(part1.matches(pattern1));
+		instantpot.add(part3.matches(pattern1));
+		instantpot.add(part2.matches(pattern2));
+	
+		//this will invalidate if any of the results is false
+		for (Boolean a : instantpot) {
+			if (a.equals(false)) {
+			break;
+		}
+		}
+		
+		
+		
 		return false;
 	}
 		
